@@ -33,14 +33,13 @@ end
 
 
 def update
-  book = Book.find(params[:id])
-  book.update(book_params)
-  if book.save
+  @book = Book.find(params[:id])
+  if @book.update(book_params)
     flash[:notice] = "Book was successfully updated."
-   redirect_to book_path(book.id)
+   redirect_to book_path(@book.id)
   else
-    flash[:notice] ="update fail"
-   render :edit
+    flash[:notice] ="Book was update error."
+    render :edit
   end
 end
 
@@ -48,13 +47,13 @@ def destroy
   book = Book.find(params[:id])
   book.destroy
   flash[:notice] = "Book was successfully destroyed."
-  redirect_to books_path(book.id)
+  redirect_to books_path
 
 end
 
 
  private
  def book_params
- params.require(:book).permit(:title,:body)
+   params.require(:book).permit(:title, :body)
  end
 end
